@@ -1,5 +1,6 @@
 {
-  "name": "simple-api",
+  "author": "Mauricio A.da Rocha",
+  "name": "boleto-api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
