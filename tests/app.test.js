@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("../app");
 const { Boleto } = require("../helpers/boleto-validador");
-const { deepEqual } = require('../helpers/test-helpers');
+
 /**
  * BOLETO TESTES
  * 
@@ -20,7 +20,7 @@ describe('Boleto', () => {
             expirationDate: "23/10/2021",
             status: "Boleto válido."
         }
-        return deepEqual(boletoObj, boletoObjMock);
+        return expect(boletoObj).toMatchObject(boletoObjMock);
     })
     it('Boleto concessionárias é válido.', () => {
         const boleto = new Boleto();
@@ -31,7 +31,7 @@ describe('Boleto', () => {
             expirationDate: "16/11/2021",
             status: "Boleto válido."
         }
-        return deepEqual(boletoObj, boletoObjMock);
+        return expect(boletoObj).toMatchObject(boletoObjMock);
     })
     it('Boleto bancário é inválido.', () => {
         const boleto = new Boleto();
@@ -40,7 +40,7 @@ describe('Boleto', () => {
             barCode: "3419179001010435100479102015000887820026300",
             status: "Boleto inválido."
         }
-        return deepEqual(boletoObj, boletoObjMock);
+        return expect(boletoObj).toMatchObject(boletoObjMock);
     })
     it('Boleto concessionárias é inválido.', () => {
         const boleto = new Boleto();
@@ -49,7 +49,7 @@ describe('Boleto', () => {
             barCode: "83640000003716250048100514329528611400183609383",
             status: "Boleto inválido."
         }
-        return deepEqual(boletoObj, boletoObjMock);
+        return expect(boletoObj).toMatchObject(boletoObjMock);
     })
 })
 // describe('Requisições', () => {
