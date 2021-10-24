@@ -10,7 +10,7 @@ const { Boleto } = require("../helpers/boleto-validator");
  * 
  */
 
-describe('Boleto', () => {
+describe('Boleto (Validação)', () => {
     it('Boleto bancário é válido.', () => {
         const boleto = new Boleto();
         const boletoObj = boleto.validate('34191.79001 01043.510047 91020.150008 9 87820026300')
@@ -40,32 +40,23 @@ describe('Boleto', () => {
         }
         return expect(boletoObj).toMatchObject(boletoObjMock);
     })
-    // it('Boleto concessionárias é válido.', () => {
-    //     const boleto = new Boleto();
-    //     const boletoObj = boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383-9')
-    //     const boletoObjMock = {
-    //         barcode: "836400000037162500481005143295286114001836093839",
-    //         amount: "316,25",
-    //         expirationDate: "16/11/2021",
-    //         status: "Boleto válido."
-    //     }
-    //     return expect(boletoObj).toMatchObject(boletoObjMock);
-    // })
-    // it('Boleto concessionárias é inválido.', () => {
-    //     const boleto = new Boleto();
-    //     const boletoObj = boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383')
-    //     const boletoObjMock = {
-    //         barcode: "83640000003716250048100514329528611400183609383",
-    //         status: "Boleto inválido."
-    //     }
-    //     return expect(boletoObj).toMatchObject(boletoObjMock);
-    // })
+    it('Boleto concessionárias é válido.', () => {
+        const boleto = new Boleto();
+        const boletoObj = boleto.validate('83680000003-3 00230048100-5 22218056921-2 00183609383-9')
+        const boletoObjMock = {
+            barcode: "836800000033002300481005222180569212001836093839",
+            amount: "300,23",
+            status: "Boleto válido."
+        }
+        return expect(boletoObj).toMatchObject(boletoObjMock);
+    })
+    it('Boleto concessionárias é inválido.', () => {
+        const boleto = new Boleto();
+        const boletoObj = boleto.validate('83680000003 00230048100-5 22218056921-2 00183609383-9')
+        const boletoObjMock = {
+            barcode: "83680000003002300481005222180569212001836093839",
+            status: "Boleto inválido."
+        }
+        return expect(boletoObj).toMatchObject(boletoObjMock);
+    })
 })
-// describe('Requisições', () => {
-//     it('Requesição válida.', () => {
-//         return false
-//     })
-//     it('Requesição inválida.', () => {
-//         return false
-//     })
-// })

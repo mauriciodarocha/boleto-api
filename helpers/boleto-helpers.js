@@ -13,11 +13,11 @@ class BoletoHelpers {
      * @returns boolean
      */
     validateBoletoBancario(boleto_param) {
-        const code_groups = this.getBoletoBancarioGroups(boleto_param);
-        const validation = code_groups.codes.every((code) => this.module10(code.num) === Number(code.dv));
+        const code_groups = boleto_param.length===44 && this.getBoletoBancarioGroups(boleto_param);
+        const validation = boleto_param.length===44 && code_groups.codes.every((code) => this.module10(code.num) === Number(code.dv));
         if (!validation) {
             return { 
-                barcode: code_groups.barcode,
+                barcode: boleto_param,
                 status: "Boleto inválido."
             }
         }
@@ -33,7 +33,17 @@ class BoletoHelpers {
      * @returns boolean
      */
      validateConcessionaria(boleto_param) {
-        return true
+        const code_groups = boleto_param.length===48 && this.getConcessionariaGroups(boleto_param);
+        const validation = boleto_param.length===48 && code_groups.codes.every((code) => this.module10(code.num) === Number(code.dv));
+        if (!validation) {
+            return { 
+                barcode: boleto_param,
+                status: "Boleto inválido."
+            }
+        }
+        this.boletoObj.barcode = code_groups.barcode;
+        this.boletoObj.amount = this.formatNumberBR(code_groups.valor);
+        return this.boletoObj;
     }
 
     /**
@@ -88,6 +98,26 @@ class BoletoHelpers {
             sum = 10 - sum;
         }
         return sum;
+    }
+
+    getConcessionariaGroups(boleto_param) {
+        let matches = boleto_param.match(/^(?<campo1>\d{11})[^\d]?(?<dv1>\d{1})[^\d]?(?<campo2>\d{11})[^\d]?(?<dv2>\d{1})[^\d]?(?<campo3>\d{11})[^\d]?(?<dv3>\d{1})[^\d]?(?<campo4>\d{11})[^\d]?(?<dv4>\d{1})$/m);
+        let fields = matches.groups;
+
+        let codes = [];
+        let field_keys = Object.keys(fields);
+        for (let i = 0; i < field_keys.length; i = i + 2) {
+            const match_group = {};
+            match_group['num'] = fields[field_keys[i]];
+            match_group['dv'] = fields[field_keys[i + 1]];
+            codes.push(match_group);
+        }
+        let code_groups = {
+            codes
+        };
+        code_groups['barcode'] = matches[0];
+        code_groups['valor'] = String(code_groups.codes[0].num+code_groups.codes[1].num).replace(/^\d{4}(?<valor>\d{11}).*/, "$1");
+        return code_groups;
     }
 
     /**
