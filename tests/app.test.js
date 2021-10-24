@@ -1,7 +1,7 @@
-const request = require("supertest")
-const app = require("../app")
-const { Boleto } = require("../helpers/boleto-validador")
-
+const request = require("supertest");
+const app = require("../app");
+const { Boleto } = require("../helpers/boleto-validador");
+const { deepEqual } = require('../helpers/test-helpers');
 /**
  * BOLETO TESTES
  * 
@@ -13,34 +13,50 @@ const { Boleto } = require("../helpers/boleto-validador")
 describe('Boleto', () => {
     it('Boleto bancário é válido.', () => {
         const boleto = new Boleto();
-        return boleto.validate('34191.79001 01043.510047 91020.150008 9 87820026300')
+        const boletoObj = boleto.validate('34191.79001 01043.510047 91020.150008 9 87820026300')
+        const boletoObjMock = {
+            barCode: "34191790010104351004791020150008987820026300",
+            amount: "263,00",
+            expirationDate: "23/10/2021",
+            status: "Boleto válido."
+        }
+        return deepEqual(boletoObj, boletoObjMock);
     })
     it('Boleto concessionárias é válido.', () => {
         const boleto = new Boleto();
-        return boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383-9')
+        const boletoObj = boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383-9')
+        const boletoObjMock = {
+            barCode: "836400000037162500481005143295286114001836093839",
+            amount: "316,25",
+            expirationDate: "16/11/2021",
+            status: "Boleto válido."
+        }
+        return deepEqual(boletoObj, boletoObjMock);
     })
     it('Boleto bancário é inválido.', () => {
         const boleto = new Boleto();
-        return boleto.validate('34191.79001 01043.510047 91020.150008 87820026300')
+        const boletoObj = boleto.validate('34191.79001 01043.510047 91020.150008 87820026300')
+        const boletoObjMock = {
+            barCode: "3419179001010435100479102015000887820026300",
+            status: "Boleto inválido."
+        }
+        return deepEqual(boletoObj, boletoObjMock);
     })
     it('Boleto concessionárias é inválido.', () => {
         const boleto = new Boleto();
-        return boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383')
-    })
-    it('Boleto bancário caracter inválido.', () => {
-        const boleto = new Boleto();
-        return boleto.validate('34191.79001 01043.510047 91020.150008 87820026300')
-    })
-    it('Boleto concessionárias caracter inválido.', () => {
-        const boleto = new Boleto();
-        return boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383')
+        const boletoObj = boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383')
+        const boletoObjMock = {
+            barCode: "83640000003716250048100514329528611400183609383",
+            status: "Boleto inválido."
+        }
+        return deepEqual(boletoObj, boletoObjMock);
     })
 })
-describe('Requisições', () => {
-    it('Requesição válida.', () => {
-        return false
-    })
-    it('Requesição inválida.', () => {
-        return false
-    })
-})
+// describe('Requisições', () => {
+//     it('Requesição válida.', () => {
+//         return false
+//     })
+//     it('Requesição inválida.', () => {
+//         return false
+//     })
+// })
