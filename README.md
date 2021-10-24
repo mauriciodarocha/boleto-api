@@ -32,7 +32,7 @@ Example:
 http://localhost:3000/boleto/34191.79001 01043.510047 91020.150008 9 87820026300
 ```
 
-\*Do not worry about removing spaces, dots etc, the api will remove for you.
+\*Do not worry about removing spaces, dots etc, the api will remove them for you.
 
 ### Unit tests
 
