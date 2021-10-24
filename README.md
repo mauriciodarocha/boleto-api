@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The boleto api is a simples app to verify if you have a valid boleto number.
+The boleto api is an app to verify a boleto number.
 
 ## Installation
 
-Open the terminal, then download the project from the Gitlab repository\*. Access the main folder of the application, you should be able to see a file named "Dockerfile", then run the following command to install the project.
+Open the terminal, then download the project from the Github repository\*. Access the main folder of the application, you should be able to see a file named "app.dockerfile", then run the following command to install the project.
 
 ```bash
 docker-compose up
@@ -16,7 +16,7 @@ docker-compose up
 
 ## Starting the application
 
-You don't need to do anything else. Once the docker image and containers are created, and the node modules are installed, the app will start automatically. All that might take a little while. Be patient.
+You don't need to do anything else. Once the docker image and containers are created, and the node modules are installed, the app will start automatically. All that might take a little while.
 
 ## Open the app
 
@@ -47,3 +47,8 @@ If you are running Git Bash in Windows, add &quot;winpty&quot; before the comman
 ```bash
 winpty docker exec -t boleto-api npm test
 ```
+
+### I don't have Docker
+
+You don't have Docker, but you should have node, right?
+If you do, just install the node_modules with `npm install`, then run the api with `npm start` and the tests with `npm test`.
