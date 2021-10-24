@@ -13,27 +13,27 @@ const { Boleto } = require("../helpers/boleto-validador")
 describe('Boleto', () => {
     it('Boleto bancário é válido.', () => {
         const boleto = new Boleto();
-        return boleto.validar('34191.79001 01043.510047 91020.150008 9 87820026300')
+        return boleto.validate('34191.79001 01043.510047 91020.150008 9 87820026300')
     })
     it('Boleto concessionárias é válido.', () => {
         const boleto = new Boleto();
-        return boleto.validar('83640000003-7 16250048100-5 14329528611-4 00183609383-9')
+        return boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383-9')
     })
     it('Boleto bancário é inválido.', () => {
         const boleto = new Boleto();
-        return boleto.validar('34191.79001 01043.510047 91020.150008 87820026300')
+        return boleto.validate('34191.79001 01043.510047 91020.150008 87820026300')
     })
     it('Boleto concessionárias é inválido.', () => {
         const boleto = new Boleto();
-        return boleto.validar('83640000003-7 16250048100-5 14329528611-4 00183609383')
+        return boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383')
     })
     it('Boleto bancário caracter inválido.', () => {
         const boleto = new Boleto();
-        return boleto.validar('34191.79001 01043.510047 91020.150008 87820026300')
+        return boleto.validate('34191.79001 01043.510047 91020.150008 87820026300')
     })
     it('Boleto concessionárias caracter inválido.', () => {
         const boleto = new Boleto();
-        return boleto.validar('83640000003-7 16250048100-5 14329528611-4 00183609383')
+        return boleto.validate('83640000003-7 16250048100-5 14329528611-4 00183609383')
     })
 })
 describe('Requisições', () => {
