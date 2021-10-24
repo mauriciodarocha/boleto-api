@@ -60,3 +60,35 @@ describe('Boleto (Validação)', () => {
         return expect(boletoObj).toMatchObject(boletoObjMock);
     })
 })
+describe('Requisições (HTTP)', () => {
+    it('Requisição válida.', () => {
+        const boleto_num = '34191.79001 01043.510047 91020.150008 9 87820026300';
+        const boletoObjMock = {
+            barcode: "34191790010104351004791020150008987820026300",
+            amount: "263,00",
+            expirationDate: "23/10/2021",
+            status: "Boleto válido."
+        }
+        return request(app)
+                .get(`/boleto/${boleto_num}`)
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .then((response) => {
+                    expect(response.body).toMatchObject(boletoObjMock)
+                })
+    })
+    it('Requisição inválida.', () => {
+        const boleto_num = '34191.79001 01043.510047 91020.150008 87820026300';
+        const boletoObjMock = {
+            barcode: "3419179001010435100479102015000887820026300",
+            status: "Boleto inválido."
+        }
+        return request(app)
+                .get(`/boleto/${boleto_num}`)
+                .expect('Content-Type', /json/)
+                .expect(400)
+                .then((response) => {
+                    expect(response.body).toMatchObject(boletoObjMock)
+                })
+    })
+})
